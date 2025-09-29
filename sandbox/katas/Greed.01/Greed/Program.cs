@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 int CalculateScore(IEnumerable<int> roll)
 {
@@ -42,6 +40,7 @@ int CalculateScore(IEnumerable<int> roll)
 }
 
 int[] inputRoll = { 1, 1, 1, 5, 1 };
-
 int userScore = CalculateScore(inputRoll);
-Console.WriteLine($"the best score based on a given roll: {userScore}");
+
+string strRoll = string.Join(", ", inputRoll);
+Console.WriteLine($"The best score based on a given roll ({strRoll}): {userScore}");
