@@ -1,27 +1,25 @@
-﻿using System.Linq;
-
-int CalculateScore(IEnumerable<int> roll)
+﻿static int CalculateScore(IEnumerable<int> roll)
 {
     // toto je vypůjčený nápad :-)
     var counts = roll.GroupBy(d => d).ToDictionary(g => g.Key, g => g.Count());
     int totalScore = 0;
 
     // triples
-    for (int value = 1; value <= 6; value++)
+    foreach (var count in counts)
     {
-        if (counts.TryGetValue(value, out int count) && count >= 3)
+        if (count.Value >= 3)
         {
 
-            if (value == 1)
+            if (count.Key == 1)
             {
                 totalScore = 1000;
             }
             else
             {
-                totalScore = value * 100;
+                totalScore = count.Key * 100;
             }
 
-            counts[value] -= 3;
+            counts[count.Key] -= 3;
         }
     }
 
@@ -38,6 +36,7 @@ int CalculateScore(IEnumerable<int> roll)
 
     return totalScore;
 }
+
 
 int[] inputRoll = { 1, 1, 1, 5, 1 };
 int userScore = CalculateScore(inputRoll);
