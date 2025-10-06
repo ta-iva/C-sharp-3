@@ -1,0 +1,33 @@
+
+using Microsoft.VisualBasic;
+
+public class FizzBuzz
+{
+    public void CountTo(int lastNumber)
+    {
+        for (int i = lastNumber; i > 0; i--)
+        {
+            string output = "";
+
+            if (i % 3 == 0)
+            {
+                output = "Fizz";
+            }
+
+            if (i % 5 == 0)
+            {
+                output += "Buzz";
+            }
+
+            if (output == "")
+            {
+                Console.WriteLine(i);
+            }
+            else
+            {
+                Console.WriteLine(output);
+            }
+        }
+    }
+
+}
