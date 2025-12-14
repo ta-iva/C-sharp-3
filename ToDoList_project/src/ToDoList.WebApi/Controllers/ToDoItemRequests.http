@@ -1,7 +1,7 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
 @host=http://localhost
 @port=5000
-
+// endpoint = api/ToDoItems
 
 //List all ToDoItems
 GET {{host}}:{{port}}/api/ToDoItems
