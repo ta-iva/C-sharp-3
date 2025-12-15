@@ -10,8 +10,8 @@ using ToDoList.Persistence;
 namespace ToDoList.Persistence.Migrations
 {
     [DbContext(typeof(ToDoItemsContext))]
-    [Migration("20251214230658_SetMaxAndMinNameLength")]
-    partial class SetMaxAndMinNameLength
+    [Migration("20251215042406_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,10 +19,29 @@ namespace ToDoList.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
 
+            modelBuilder.Entity("ToDoList.Domain.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("ToDoList.Domain.Models.ToDoItem", b =>
                 {
                     b.Property<int>("ToDoItemId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -40,7 +59,25 @@ namespace ToDoList.Persistence.Migrations
 
                     b.HasKey("ToDoItemId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("ToDoItems");
+                });
+
+            modelBuilder.Entity("ToDoList.Domain.Models.ToDoItem", b =>
+                {
+                    b.HasOne("ToDoList.Domain.Models.Category", "Category")
+                        .WithMany("ToDoItems")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("ToDoList.Domain.Models.Category", b =>
+                {
+                    b.Navigation("ToDoItems");
                 });
 #pragma warning restore 612, 618
         }
