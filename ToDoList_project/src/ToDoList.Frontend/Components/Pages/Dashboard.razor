@@ -26,7 +26,11 @@
                     <td>@item.Name</td>
                     <td>@item.Description</td>
                     <td>@categoryNames.GetValueOrDefault(item.CategoryId, "-")</td>
-                    <td>@(item.IsCompleted ? "ANO" : "NE")</td>
+                    <td>
+                        <span class="@(item.IsCompleted ? "" : "text-danger")">
+                            @(item.IsCompleted ? "ANO" : "NE")
+                        </span>
+                    </td>
                     <td>
                         <div class="btn-group">
                             <button class="btn btn-success" @onclick="() => ToggleItem(item)">

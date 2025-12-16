@@ -13,21 +13,21 @@
     <EditForm Model="ToDoItemModel" FormName="EditToDoItem" OnValidSubmit="Submit">
         <DataAnnotationsValidator />
         <div class="mb-3">
-            <label for="Name" class="form-label">Name:</label>
+            <label for="Name" class="form-label">Jméno úkolu:</label>
             <InputText id="Name" class="form-control w-25" @bind-Value="ToDoItemModel.Name" />
             <ValidationMessage For="() => ToDoItemModel.Name" />
         </div>
         <div class="mb-3">
-            <label for="Description" class="form-label">Description:</label>
+            <label for="Description" class="form-label">Popis:</label>
             <InputText id="Description" class="form-control w-25" @bind-Value="ToDoItemModel.Description" />
             <ValidationMessage For="() => ToDoItemModel.Description" />
         </div>
         <div class="mb-3">
-            <label for="IsCompleted" class="form-check-label">IsCompleted:</label>
+            <label for="IsCompleted" class="form-check-label">Hotovo?</label>
             <InputCheckbox id="IsCompleted" class="form-check" @bind-Value="ToDoItemModel.IsCompleted" />
         </div>
         <div class="mb-3">
-            <label for="Category" class="form-label">Category:</label>
+            <label for="Category" class="form-label">Kategorie:</label>
             <InputSelect id="Category" class="form-control w-25" @bind-Value="ToDoItemModel.CategoryId">
                 @foreach (var category in categories)
                 {
@@ -36,7 +36,7 @@
             </InputSelect>
         </div>
         <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Ulož</button>
         </div>
     </EditForm>
 }
