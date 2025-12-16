@@ -23,6 +23,11 @@ var app = builder.Build();
     //Configure Middleware (HTTP request pipeline)
     app.MapControllers();
     app.UseSwagger();
-    app.UseSwaggerUI(config => config.SwaggerEndpoint("v1/swagger.json", "ToDoList API V1"));
+    app.UseSwaggerUI(config =>
+    {
+        config.SwaggerEndpoint("v1/swagger.json", "ToDoList API V1");
+        config.DocumentTitle = "ToDoList API Documentation";
+    });
 }
+
 app.Run();
