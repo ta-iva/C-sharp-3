@@ -9,7 +9,7 @@ using ToDoList.Persistence;
 
 namespace ToDoList.Persistence.Migrations
 {
-    [DbContext(typeof(ToDoItemsContext))]
+    [DbContext(typeof(ToDoListContext))]
     [Migration("20251215042406_InitialCreate")]
     partial class InitialCreate
     {

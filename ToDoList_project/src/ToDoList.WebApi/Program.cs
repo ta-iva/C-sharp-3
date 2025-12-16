@@ -8,9 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
     //Configure DI Container
     builder.Services.AddControllers();
     builder.Services.AddSwaggerGen();
-    builder.Services.AddDbContext<ToDoItemsContext>();
+    builder.Services.AddDbContext<ToDoListContext>();
     builder.Services.AddScoped<IRepositoryAsync<ToDoItem>, ToDoItemsRepository>();
-    builder.Services.AddScoped<IRepositoryAsync<Category>, CategoryRepository>();
+    builder.Services.AddScoped<IRepositoryAsync<Category>, CategoriesRepository>();
 
     // Lifecycle demo
     builder.Services.AddTransient<IRandomValueServiceTransient, RandomValueServiceTransient>();

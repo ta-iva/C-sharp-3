@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Domain.Models;
 
-public class CategoryRepository : IRepositoryAsync<Category>
+public class CategoriesRepository : IRepositoryAsync<Category>
 {
-    private readonly ToDoItemsContext context;
+    private readonly ToDoListContext context;
 
-    public CategoryRepository(ToDoItemsContext context)
+    public CategoriesRepository(ToDoListContext context)
     {
         this.context = context;
     }

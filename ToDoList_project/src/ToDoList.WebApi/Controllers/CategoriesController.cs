@@ -7,11 +7,11 @@ using ToDoList.Persistence.Repositories;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CategoryController : ControllerBase
+public class CategoriesController : ControllerBase
 {
     private readonly IRepositoryAsync<Category> repository;
 
-    public CategoryController(IRepositoryAsync<Category> repository)
+    public CategoriesController(IRepositoryAsync<Category> repository)
     {
         this.repository = repository;
     }

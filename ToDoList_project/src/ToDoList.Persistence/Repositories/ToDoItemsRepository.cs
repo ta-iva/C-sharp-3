@@ -6,9 +6,9 @@ using ToDoList.Domain.Models;
 
 public class ToDoItemsRepository : IRepositoryAsync<ToDoItem>
 {
-    private readonly ToDoItemsContext context;
+    private readonly ToDoListContext context;
 
-    public ToDoItemsRepository(ToDoItemsContext context)
+    public ToDoItemsRepository(ToDoListContext context)
     {
         this.context = context;
     }
