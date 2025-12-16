@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddDbContext<ToDoListContext>();
     builder.Services.AddScoped<IRepositoryAsync<ToDoItem>, ToDoItemsRepository>();
     builder.Services.AddScoped<IRepositoryAsync<Category>, CategoriesRepository>();
+    builder.Services.AddScoped<Seeder>();
 
     // Lifecycle demo
     builder.Services.AddTransient<IRandomValueServiceTransient, RandomValueServiceTransient>();
@@ -20,6 +21,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    // Seed data
+    using (var scope = app.Services.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
+        await seeder.SeedAsync();
+    }
+
     //Configure Middleware (HTTP request pipeline)
     app.MapControllers();
     app.UseSwagger();

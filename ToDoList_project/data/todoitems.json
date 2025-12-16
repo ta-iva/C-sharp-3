@@ -1,0 +1,142 @@
+[
+  {
+    "ToDoItemId": 1,
+    "Name": "Ranní dojení všech dojnic",
+    "Description": "Zkontrolovat stav vemene a čistotu před dojením. Zaznamenat výnos mléka.",
+    "IsCompleted": true,
+    "CategoryId": 1
+  },
+  {
+    "ToDoItemId": 2,
+    "Name": "Krmení telat mléčnou náhražkou",
+    "Description": "Telata ve věku 1-3 měsíce, zajistit správnou teplotu náhražky.",
+    "IsCompleted": false,
+    "CategoryId": 1
+  },
+  {
+    "ToDoItemId": 3,
+    "Name": "Kontrola napájecích žlabů a čištění",
+    "Description": "Odstranit nečistoty a řasy, doplnit čerstvou vodu v hlavní stáji.",
+    "IsCompleted": true,
+    "CategoryId": 1
+  },
+  {
+    "ToDoItemId": 4,
+    "Name": "Aplikace hnojiva na pastvinu 'Sever'",
+    "Description": "Rozmetat hnojivo NPK, zkontrolovat stav oplocení.",
+    "IsCompleted": false,
+    "CategoryId": 1
+  },
+  {
+    "ToDoItemId": 5,
+    "Name": "Ošetření jednoho kusu kulhající krávy",
+    "Description": "Izolovat zvíře a aplikovat dezinfekci na postižené kopyto.",
+    "IsCompleted": false,
+    "CategoryId": 1
+  },
+  {
+    "ToDoItemId": 6,
+    "Name": "Příprava krmné směsi pro výkrm",
+    "Description": "Navážit krmivo dle denní dávky pro skupinu A a B.",
+    "IsCompleted": true,
+    "CategoryId": 2
+  },
+  {
+    "ToDoItemId": 7,
+    "Name": "Výměna podestýlky ve všech kotcích",
+    "Description": "Použít čerstvou slámu, odstranit vlhké a znečištěné části.",
+    "IsCompleted": true,
+    "CategoryId": 2
+  },
+  {
+    "ToDoItemId": 8,
+    "Name": "Kontrola zdravotního stavu u březích prasnic",
+    "Description": "Zaznamenat chování, kontrola příjmu potravy.",
+    "IsCompleted": false,
+    "CategoryId": 2
+  },
+  {
+    "ToDoItemId": 9,
+    "Name": "Odebrání a kontrola selat od matek (odstav)",
+    "Description": "Přesun selat do odchovny, kontrola váhy a zdravotního stavu.",
+    "IsCompleted": true,
+    "CategoryId": 2
+  },
+  {
+    "ToDoItemId": 10,
+    "Name": "Dezinfekce a mytí porodního kotce č. 3",
+    "Description": "Kompletní sanitace boxu pro příští vrh.",
+    "IsCompleted": false,
+    "CategoryId": 2
+  },
+  {
+    "ToDoItemId": 11,
+    "Name": "Vyzvednutí a třídění vajíček",
+    "Description": "Sesbírat vajíčka z hnízd a přemístit do chladírny.",
+    "IsCompleted": true,
+    "CategoryId": 3
+  },
+  {
+    "ToDoItemId": 12,
+    "Name": "Doplnění krmiva do zásobníků u kachen",
+    "Description": "Zajistit dostatek krmiva na celý den, kontrola kvality zrní.",
+    "IsCompleted": true,
+    "CategoryId": 3
+  },
+  {
+    "ToDoItemId": 13,
+    "Name": "Výměna vody a čištění napáječek u kuřat",
+    "Description": "Pravidelná kontrola čistoty, protože kuřata znečišťují vodu rychle.",
+    "IsCompleted": false,
+    "CategoryId": 3
+  },
+  {
+    "ToDoItemId": 14,
+    "Name": "Kontrola oplocení venkovního výběhu",
+    "Description": "Zajistit ochranu proti predátorům (liška, dravec).",
+    "IsCompleted": true,
+    "CategoryId": 3
+  },
+  {
+    "ToDoItemId": 15,
+    "Name": "Příprava směsi pro nosnice s vyšším obsahem vápníku",
+    "Description": "Dávkování minerálního doplňku pro silnější skořápky.",
+    "IsCompleted": false,
+    "CategoryId": 3
+  },
+  {
+    "ToDoItemId": 16,
+    "Name": "Doplnění sena do jeslí",
+    "Description": "Zajistit dostatek kvalitního sena pro všechny skupiny.",
+    "IsCompleted": true,
+    "CategoryId": 4
+  },
+  {
+    "ToDoItemId": 17,
+    "Name": "Kontrola březích ovcí na známky bahnění",
+    "Description": "Pravidelné obchůzky, kontrola porodních boxů.",
+    "IsCompleted": false,
+    "CategoryId": 4
+  },
+  {
+    "ToDoItemId": 18,
+    "Name": "Očkování všech kůzlat proti enterotoxémii",
+    "Description": "Aplikace první dávky u kůzlat starých 4 týdny.",
+    "IsCompleted": true,
+    "CategoryId": 4
+  },
+  {
+    "ToDoItemId": 19,
+    "Name": "Stříhání ovcí (dokončení poslední skupiny)",
+    "Description": "Zajistit ošetření drobných poranění, balení vlny.",
+    "IsCompleted": false,
+    "CategoryId": 4
+  },
+  {
+    "ToDoItemId": 20,
+    "Name": "Vyčesávání srsti angorským kozám",
+    "Description": "Odstranění splstnatělé vlny pro zajištění kvality mohéru.",
+    "IsCompleted": true,
+    "CategoryId": 4
+  }
+]
