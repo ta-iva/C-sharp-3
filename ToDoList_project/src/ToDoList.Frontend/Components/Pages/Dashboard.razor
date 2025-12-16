@@ -2,6 +2,7 @@
 @using ToDoList.Frontend.Models
 
 @inject IToDoItemsClient toDoItemsClient
+@inject ICategoriesClient categoriesClient
 @inject NavigationManager NavigationManager
 
 <div>
@@ -9,9 +10,10 @@
     <table class="table table-hover mt-3">
         <thead class="table-dark">
             <tr>
-                <th><button class="btn btn-secondary" @onclick="OrderById">Seřaď dle ID</button></th>
-                <th><button class="btn btn-primary" @onclick="OrderByName">Seřaď dle jména</button></th>
+                <th><button class="btn btn-secondary" @onclick="OrderById">ID&nbsp;&#x21C5;</button></th>
+                <th><button class="btn btn-primary" @onclick="OrderByName">Úkol&nbsp;&#x21C5;</button></th>
                 <th>Popis úkolu</th>
+                <th>Kategorie</th>
                 <th>Hotovo?</th>
                 <th></th>
             </tr>
@@ -23,6 +25,7 @@
                     <td>@item.Id</td>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
+                    <td>@categoryNames.GetValueOrDefault(item.CategoryId, "-")</td>
                     <td>@(item.IsCompleted ? "ANO" : "NE")</td>
                     <td>
                         <div class="btn-group">
@@ -45,6 +48,7 @@
 
 @code {
     private List<ToDoItemView> sortedData = new();
+    private Dictionary<int, string> categoryNames = new();
 
     public void OrderByName()
     {
@@ -78,6 +82,13 @@
     {
         //sortedData = testData.ToList();
         sortedData = await toDoItemsClient.ReadItemsAsync();
+        await RefreshCategoriesAsync();
+    }
+
+    private async Task RefreshCategoriesAsync()
+    {
+        var categories = await categoriesClient.ReadCategoriesAsync();
+        categoryNames = categories.ToDictionary(c => c.Id, c => c.Name);
     }
 
     private string ConvertItemCompletionToTableRowStyle(bool isCompleted) => isCompleted ? "table-success" : "table-light";

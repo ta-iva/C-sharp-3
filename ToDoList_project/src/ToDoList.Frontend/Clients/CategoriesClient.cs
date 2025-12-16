@@ -17,7 +17,7 @@ public class CategoriesClient : ICategoriesClient
         var categoryViews = new List<CategoryView>();
         try
         {
-            var response = await httpClient.GetFromJsonAsync<List<CategoryGetResponseDto>>("api/Category");
+            var response = await httpClient.GetFromJsonAsync<List<CategoryGetResponseDto>>("api/Categories");
             if (response is null)
             {
                 Console.WriteLine("GET request failed: No categories to read.");
@@ -41,7 +41,7 @@ public class CategoriesClient : ICategoriesClient
     {
         try
         {
-            var response = await httpClient.GetFromJsonAsync<CategoryGetResponseDto>($"api/Category/{categoryId}");
+            var response = await httpClient.GetFromJsonAsync<CategoryGetResponseDto>($"api/Categories/{categoryId}");
             if (response is null)
             {
                 Console.WriteLine($"GET request failed: Category with {categoryId} id not found.");
@@ -67,7 +67,7 @@ public class CategoriesClient : ICategoriesClient
         try
         {
             var categoryRequest = new CategoryCreateRequestDto(category.Name);
-            var response = await httpClient.PostAsJsonAsync("api/Category", categoryRequest);
+            var response = await httpClient.PostAsJsonAsync("api/Categories", categoryRequest);
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("POST request successful: Created new Category.");
@@ -88,7 +88,7 @@ public class CategoriesClient : ICategoriesClient
         try
         {
             var categoryRequest = new CategoryUpdateRequestDto(category.Name);
-            var response = await httpClient.PutAsJsonAsync($"api/Category/{category.Id}", categoryRequest);
+            var response = await httpClient.PutAsJsonAsync($"api/Categories/{category.Id}", categoryRequest);
             if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
                 Console.WriteLine($"PUT request successful: Updated Category with id {category.Id}.");
@@ -108,7 +108,7 @@ public class CategoriesClient : ICategoriesClient
     {
         try
         {
-            var response = await httpClient.DeleteAsync($"api/Category/{category.Id}");
+            var response = await httpClient.DeleteAsync($"api/Categories/{category.Id}");
             if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
                 Console.WriteLine($"DELETE request successful: Deleted Category with id {category.Id}.");

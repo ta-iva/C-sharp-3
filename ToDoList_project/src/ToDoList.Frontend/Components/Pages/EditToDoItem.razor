@@ -3,6 +3,7 @@
 @using ToDoList.Frontend.Models
 
 @inject IToDoItemsClient toDoItemsClient
+@inject ICategoriesClient categoriesClient
 @inject NavigationManager NavigationManager
 
 @rendermode InteractiveServer
@@ -26,15 +27,27 @@
             <InputCheckbox id="IsCompleted" class="form-check" @bind-Value="ToDoItemModel.IsCompleted" />
         </div>
         <div class="mb-3">
+            <label for="Category" class="form-label">Category:</label>
+            <InputSelect id="Category" class="form-control w-25" @bind-Value="ToDoItemModel.CategoryId">
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="mb-3">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </EditForm>
 }
 
 @code {
+    private List<CategoryView> categories = new();
+
     protected override async Task OnInitializedAsync()
     {
         ToDoItemModel = await toDoItemsClient.ReadItemByIdAsync(ItemId);
+        categories = await categoriesClient.ReadCategoriesAsync();
     }
 
     [Parameter]
