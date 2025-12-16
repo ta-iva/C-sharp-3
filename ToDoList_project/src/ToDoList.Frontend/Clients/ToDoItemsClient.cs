@@ -28,7 +28,8 @@ public class ToDoItemsClient : IToDoItemsClient
                 Id = dto.Id,
                 Name = dto.Name,
                 Description = dto.Description,
-                IsCompleted = dto.IsCompleted
+                IsCompleted = dto.IsCompleted,
+                CategoryId = dto.CategoryId
             }).ToList();
         }
         catch (Exception e)
@@ -55,7 +56,8 @@ public class ToDoItemsClient : IToDoItemsClient
                 Id = response.Id,
                 Name = response.Name,
                 Description = response.Description,
-                IsCompleted = response.IsCompleted
+                IsCompleted = response.IsCompleted,
+                CategoryId = response.CategoryId
             };
             return toDoItem;
         }
@@ -70,7 +72,7 @@ public class ToDoItemsClient : IToDoItemsClient
     {
         try
         {
-            var itemRequest = new ToDoItemUpdateRequestDto(item.Name, item.Description, item.IsCompleted);
+            var itemRequest = new ToDoItemUpdateRequestDto(item.Name, item.Description, item.IsCompleted, item.CategoryId);
             var response = await httpClient.PutAsJsonAsync($"api/ToDoItems/{item.Id}", itemRequest);
             if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
