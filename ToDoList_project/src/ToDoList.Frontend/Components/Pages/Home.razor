@@ -3,12 +3,34 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Farma zvířat</h1>
+<h1 class="mb=5">Farma zvířat</h1>
 
 <h5>Vítáme vás na farmě zvířat! <br />Můžete zde spravovat svůj každodenní seznam farmářských úkolů a starat se o svá
-    virtuální
-    hospodářská zvířátka &#x1F42E;</h5>
+    virtuální hospodářská zvířátka &#x1F42E;</h5>
 
 <hr />
 
+<div class="d-flex justify-content-end mb-0">
+    <button type="button" class="btn btn-warning" @onclick="ShowModal">
+        <i class="fas fa-plus-circle"></i> Přidej kategorii
+    </button>
+</div>
+
 <Dashboard />
+
+<CreateCategoryModal IsVisible="showModal" OnCategoryCreated="OnCategoryCreated" />
+
+@code {
+    private bool showModal = false;
+
+    private void ShowModal()
+    {
+        showModal = true;
+    }
+
+    private void OnCategoryCreated()
+    {
+        showModal = false;
+        // Optionally refresh Dashboard or show message
+    }
+}
