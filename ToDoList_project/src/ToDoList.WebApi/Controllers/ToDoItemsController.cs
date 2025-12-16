@@ -10,10 +10,12 @@ using ToDoList.Persistence.Repositories;
 public class ToDoItemsController : ControllerBase
 {
     private readonly IRepositoryAsync<ToDoItem> repository;
+    private readonly IRepositoryAsync<Category> categoryRepository;
 
-    public ToDoItemsController(IRepositoryAsync<ToDoItem> repository)
+    public ToDoItemsController(IRepositoryAsync<ToDoItem> repository, IRepositoryAsync<Category> categoryRepository)
     {
         this.repository = repository;
+        this.categoryRepository = categoryRepository;
     }
 
     [HttpPost]
@@ -21,6 +23,13 @@ public class ToDoItemsController : ControllerBase
     {
         //map to Domain object as soon as possible
         var item = request.ToDomain();
+
+        // check if category ID exists
+        var category = await categoryRepository.ReadByIdAsync(request.CategoryId);
+        if (category is null)
+        {
+            return BadRequest("Category with the specified ID does not exist.");
+        }
 
         //try to create an item
         try
@@ -81,6 +90,13 @@ public class ToDoItemsController : ControllerBase
     [HttpPut("{toDoItemId:int}")]
     public async Task<IActionResult> UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
     {
+        // check if category ID exists
+        var category = await categoryRepository.ReadByIdAsync(request.CategoryId);
+        if (category is null)
+        {
+            return BadRequest("Category with the specified ID does not exist.");
+        }
+
         //map to Domain object as soon as possible
         var updatedItem = request.ToDomain();
         updatedItem.ToDoItemId = toDoItemId;
