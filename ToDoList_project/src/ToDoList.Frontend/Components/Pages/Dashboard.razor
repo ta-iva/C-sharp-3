@@ -6,12 +6,16 @@
 @inject NavigationManager NavigationManager
 
 <div>
-    <h2>Seznam úkolů</h2>
     <table class="table table-hover mt-3">
         <thead class="table-dark">
             <tr>
                 <th><button class="btn btn-secondary" @onclick="OrderById">ID&nbsp;&#x21C5;</button></th>
-                <th><button class="btn btn-primary" @onclick="OrderByName">Úkol&nbsp;&#x21C5;</button></th>
+                <th>
+                    <button class="btn btn-success" @onclick="OrderByName">Úkol&nbsp;&#x21C5;</button>
+                    <button class="btn btn-primary btn-sm ms-2" @onclick="CreateNewTask">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </th>
                 <th>Popis úkolu</th>
                 <th>Kategorie</th>
                 <th>Hotovo?</th>
@@ -33,7 +37,7 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            <button class="btn btn-success" @onclick="() => ToggleItem(item)">
+                            <button class="btn btn-secondary" @onclick="() => ToggleItem(item)">
                                 <i class=@ConvertItemCompletionToToggleIconStyle(item.IsCompleted)></i>
                             </button>
                             <button class="btn btn-info" @onclick="() => EditItem(item)">
@@ -62,6 +66,11 @@
     public void OrderById()
     {
         sortedData = sortedData.OrderBy(item => item.Id).ToList();
+    }
+
+    public void CreateNewTask()
+    {
+        NavigationManager.NavigateTo("editToDoItem/0");
     }
 
     public void EditItem(ToDoItemView toDoItem)

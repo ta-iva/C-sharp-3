@@ -12,11 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IRepositoryAsync<ToDoItem>, ToDoItemsRepository>();
     builder.Services.AddScoped<IRepositoryAsync<Category>, CategoriesRepository>();
     builder.Services.AddScoped<Seeder>();
-
-    // Lifecycle demo
-    builder.Services.AddTransient<IRandomValueServiceTransient, RandomValueServiceTransient>();
-    builder.Services.AddScoped<IRandomValueServiceScoped, RandomValueServiceScoped>();
-    builder.Services.AddSingleton<IRandomValueServiceSingleton, RandomValueServiceSingleton>();
 }
 
 var app = builder.Build();

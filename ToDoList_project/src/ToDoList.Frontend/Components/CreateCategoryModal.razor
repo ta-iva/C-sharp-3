@@ -18,7 +18,7 @@
                         <InputText id="CategoryName" class="form-control" @bind-Value="newCategory.Name" />
                         <ValidationMessage For="() => newCategory.Name" />
                     </div>
-                    <button type="submit" class="btn btn-primary">Vytvořit</button>
+                    <button type="submit" class="btn btn-primary">Ulož</button>
                 </EditForm>
             </div>
         </div>
@@ -42,7 +42,7 @@
     private async Task CreateCategory()
     {
         await categoriesClient.CreateCategoryAsync(newCategory);
-        newCategory = new(); // Reset
+        newCategory = new();
         await OnCategoryCreated.InvokeAsync();
         IsVisible = false;
     }

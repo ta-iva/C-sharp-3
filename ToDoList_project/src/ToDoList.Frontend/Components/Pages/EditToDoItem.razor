@@ -13,22 +13,22 @@
     <EditForm Model="ToDoItemModel" FormName="EditToDoItem" OnValidSubmit="Submit">
         <DataAnnotationsValidator />
         <div class="mb-3">
-            <label for="Name" class="form-label">Jméno úkolu:</label>
+            <label for="Name" class="form-label fw-bold">Jméno úkolu:</label>
             <InputText id="Name" class="form-control w-25" @bind-Value="ToDoItemModel.Name" />
             <ValidationMessage For="() => ToDoItemModel.Name" />
         </div>
         <div class="mb-3">
-            <label for="Description" class="form-label">Popis:</label>
-            <InputText id="Description" class="form-control w-25" @bind-Value="ToDoItemModel.Description" />
+            <label for="Description" class="form-label fw-bold">Popis:</label>
+            <InputTextArea id="Description" class="form-control w-25" @bind-Value="ToDoItemModel.Description" rows="3" />
             <ValidationMessage For="() => ToDoItemModel.Description" />
         </div>
         <div class="mb-3">
-            <label for="IsCompleted" class="form-check-label">Hotovo?</label>
+            <label for="IsCompleted" class="form-check-label fw-bold">Hotovo?</label>
             <InputCheckbox id="IsCompleted" class="form-check" @bind-Value="ToDoItemModel.IsCompleted" />
         </div>
-        <div class="mb-3">
-            <label for="Category" class="form-label">Kategorie:</label>
-            <InputSelect id="Category" class="form-control w-25" @bind-Value="ToDoItemModel.CategoryId">
+        <div class="mb-4">
+            <label for="Category" class="form-label fw-bold">Kategorie:</label>
+            <InputSelect id="Category" class="form-select w-25" @bind-Value="ToDoItemModel.CategoryId">
                 @foreach (var category in categories)
                 {
                     <option value="@category.Id">@category.Name</option>

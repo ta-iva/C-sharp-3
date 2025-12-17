@@ -99,7 +99,7 @@
   },
   {
     "ToDoItemId": 15,
-    "Name": "Příprava směsi pro nosnice s vyšším obsahem vápníku",
+    "Name": "Příprava směsi pro nosnice s podporou vápníku",
     "Description": "Dávkování minerálního doplňku pro silnější skořápky.",
     "IsCompleted": false,
     "CategoryId": 3
