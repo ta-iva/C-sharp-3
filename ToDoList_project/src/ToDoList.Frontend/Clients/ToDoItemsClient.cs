@@ -68,6 +68,27 @@ public class ToDoItemsClient : IToDoItemsClient
         }
     }
 
+    public async Task CreateItemAsync(ToDoItemView item)
+    {
+        try
+        {
+            var itemRequest = new ToDoItemCreateRequestDto(item.Name, item.Description, item.IsCompleted, item.CategoryId);
+            var response = await httpClient.PostAsJsonAsync("api/ToDoItems", itemRequest);
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("POST request successful: Created new ToDoItem.");
+            }
+            else
+            {
+                Console.WriteLine($"POST request failed: {response.StatusCode}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Exception occurred: {e.Message}");
+        }
+    }
+
     public async Task UpdateItemAsync(ToDoItemView item)
     {
         try

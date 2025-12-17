@@ -12,7 +12,7 @@
                 <th><button class="btn btn-secondary" @onclick="OrderById">ID&nbsp;&#x21C5;</button></th>
                 <th>
                     <button class="btn btn-success" @onclick="OrderByName">Úkol&nbsp;&#x21C5;</button>
-                    <button class="btn btn-primary btn-sm ms-2" @onclick="CreateNewTask">
+                    <button class="btn btn-primary btn-sm ms-2" @onclick="CreateItem">
                         <i class="bi bi-plus-lg"></i>
                     </button>
                 </th>
@@ -68,9 +68,9 @@
         sortedData = sortedData.OrderBy(item => item.Id).ToList();
     }
 
-    public void CreateNewTask()
+    public void CreateItem()
     {
-        NavigationManager.NavigateTo("editToDoItem/0");
+        NavigationManager.NavigateTo("editToDoItem");
     }
 
     public void EditItem(ToDoItemView toDoItem)

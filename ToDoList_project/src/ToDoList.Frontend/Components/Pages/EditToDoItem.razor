@@ -1,4 +1,6 @@
-﻿@page "/editToDoItem/{ItemId:int}"
+﻿@page "/editToDoItem"
+@page "/editToDoItem/{ItemId:int?}"
+
 @using ToDoList.Frontend.Clients
 @using ToDoList.Frontend.Models
 
@@ -7,6 +9,8 @@
 @inject NavigationManager NavigationManager
 
 @rendermode InteractiveServer
+
+<h3>@(ItemId.HasValue ? "Upravit úkol" : "Nový úkol")</h3>
 
 @if (ToDoItemModel is not null)
 {
@@ -36,29 +40,51 @@
             </InputSelect>
         </div>
         <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Ulož</button>
+            <button type="submit" class="btn btn-primary">
+                @(ItemId.HasValue ? "Ulož změny" : "Vytvořit")
+            </button>
         </div>
     </EditForm>
 }
 
 @code {
-    private List<CategoryView> categories = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        ToDoItemModel = await toDoItemsClient.ReadItemByIdAsync(ItemId);
-        categories = await categoriesClient.ReadCategoriesAsync();
-    }
+    public List<CategoryView> categories = new();
 
     [Parameter]
-    public int ItemId { get; set; }
+    public int? ItemId { get; set; }
 
     [SupplyParameterFromForm]
     public ToDoItemView ToDoItemModel { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await categoriesClient.ReadCategoriesAsync();
+
+        if (ItemId.HasValue)  // edit
+        {
+            ToDoItemModel = await toDoItemsClient.ReadItemByIdAsync(ItemId.Value);
+        }
+        else  // create
+        {
+            ToDoItemModel = new ToDoItemView
+            {
+                CategoryId = categories.FirstOrDefault()?.Id ?? 0,
+                Name = "",
+                Description = ""
+            };
+        }
+    }
+
     public async Task Submit()
     {
-        await toDoItemsClient.UpdateItemAsync(ToDoItemModel);
+        if (ItemId.HasValue)
+        {
+            await toDoItemsClient.UpdateItemAsync(ToDoItemModel);
+        }
+        else
+        {
+            await toDoItemsClient.CreateItemAsync(ToDoItemModel);
+        }
         NavigationManager.NavigateTo("/");
     }
 }
