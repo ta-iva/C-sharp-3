@@ -1,0 +1,90 @@
+﻿@page "/editToDoItem"
+@page "/editToDoItem/{ItemId:int?}"
+
+@using ToDoList.Frontend.Clients
+@using ToDoList.Frontend.Models
+
+@inject IToDoItemsClient toDoItemsClient
+@inject ICategoriesClient categoriesClient
+@inject NavigationManager NavigationManager
+
+@rendermode InteractiveServer
+
+<h3>@(ItemId.HasValue ? "Upravit úkol" : "Nový úkol")</h3>
+
+@if (ToDoItemModel is not null)
+{
+    <EditForm Model="ToDoItemModel" FormName="EditToDoItem" OnValidSubmit="Submit">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <label for="Name" class="form-label fw-bold">Jméno úkolu:</label>
+            <InputText id="Name" class="form-control w-25" @bind-Value="ToDoItemModel.Name" />
+            <ValidationMessage For="() => ToDoItemModel.Name" />
+        </div>
+        <div class="mb-3">
+            <label for="Description" class="form-label fw-bold">Popis:</label>
+            <InputTextArea id="Description" class="form-control w-25" @bind-Value="ToDoItemModel.Description" rows="3" />
+            <ValidationMessage For="() => ToDoItemModel.Description" />
+        </div>
+        <div class="mb-3">
+            <label for="IsCompleted" class="form-check-label fw-bold">Hotovo?</label>
+            <InputCheckbox id="IsCompleted" class="form-check" @bind-Value="ToDoItemModel.IsCompleted" />
+        </div>
+        <div class="mb-4">
+            <label for="Category" class="form-label fw-bold">Kategorie:</label>
+            <InputSelect id="Category" class="form-select w-25" @bind-Value="ToDoItemModel.CategoryId">
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">
+                @(ItemId.HasValue ? "Ulož změny" : "Vytvořit")
+            </button>
+        </div>
+    </EditForm>
+}
+
+@code {
+    public List<CategoryView> categories = new();
+
+    [Parameter]
+    public int? ItemId { get; set; }
+
+    [SupplyParameterFromForm]
+    public ToDoItemView ToDoItemModel { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await categoriesClient.ReadCategoriesAsync();
+
+        if (ItemId.HasValue)  // edit
+        {
+            ToDoItemModel = await toDoItemsClient.ReadItemByIdAsync(ItemId.Value);
+        }
+        else  // create
+        {
+            ToDoItemModel = new ToDoItemView
+            {
+                CategoryId = categories.FirstOrDefault()?.Id ?? 0,
+                Name = "",
+                Description = ""
+            };
+        }
+    }
+
+    public async Task Submit()
+    {
+        if (ItemId.HasValue)
+        {
+            await toDoItemsClient.UpdateItemAsync(ToDoItemModel);
+        }
+        else
+        {
+            await toDoItemsClient.CreateItemAsync(ToDoItemModel);
+        }
+        NavigationManager.NavigateTo("/");
+    }
+}

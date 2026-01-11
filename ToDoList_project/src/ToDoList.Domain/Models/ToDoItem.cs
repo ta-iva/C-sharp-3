@@ -6,9 +6,11 @@ public class ToDoItem
 {
     [Key]
     public int ToDoItemId { get; set; } // EF core looks for <id> nebo <nameId>
-    [Length(1, 50)]
-    public string Name { get; set; }
+    [StringLength(50, MinimumLength = 1)]
+    public required string Name { get; set; }
     [StringLength(250)]
-    public string Description { get; set; }
+    public required string Description { get; set; }
     public bool IsCompleted { get; set; }
+    public int CategoryId { get; set; } // Foreign key
+    public Category Category { get; set; } // Navigation property
 }

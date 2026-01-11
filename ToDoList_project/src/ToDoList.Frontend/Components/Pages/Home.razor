@@ -3,33 +3,31 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1 class="mb-3 fw-bold text-dark">Farma zvířat &#x1F33F;</h1>
 
-Welcome to your new app.
+<p class="lead text-muted border-bottom pb-3">Vítáme vás na farmě zvířat! <br />Můžete zde spravovat svůj každodenní seznam farmářských úkolů a starat se o svá
+    virtuální hospodářská zvířátka &#x1F42E;</p>
 
-<br />
 
-<b>@GetValue()</b>
-
-<hr />
-
-<p>Hodnota: @counter</p>
-<button @onclick="IncrementCounter">Increment Counter</button>
-
-<hr />
+<div class="d-flex justify-content-end mb-0">
+    <button type="button" class="btn btn-warning fw-bold" @onclick="ShowModal"><i class="bi bi-tags me-2"></i>Přidej kategorii</button>
+</div>
 
 <Dashboard />
 
-@code {
-    private int counter = 1;
+<CreateCategoryModal IsVisible="showModal" OnCategoryCreated="OnCategoryCreated" />
 
-    private void IncrementCounter()
+@code {
+    private bool showModal = false;
+
+    private void ShowModal()
     {
-        counter++;
+        showModal = true;
     }
 
-    private string GetValue()
+    private void OnCategoryCreated()
     {
-        return Guid.NewGuid().ToString();
+        showModal = false;
+        // Optionally refresh Dashboard or show message
     }
 }

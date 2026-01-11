@@ -1,0 +1,54 @@
+@using ToDoList.Frontend.Clients
+@using ToDoList.Frontend.Models
+
+@inject ICategoriesClient categoriesClient
+
+<div class="modal fade @((IsVisible ? "show" : ""))" style="@(IsVisible ? "display: block;" : "display: none;")" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="@(!IsVisible)">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCategoryModalLabel">Vytvořit novou kategorii</h5>
+                <button type="button" class="btn-close" @onclick="CloseModal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="newCategory" OnValidSubmit="CreateCategory">
+                    <DataAnnotationsValidator />
+                    <div class="mb-3">
+                        <label for="CategoryName" class="form-label">Název kategorie:</label>
+                        <InputText id="CategoryName" class="form-control" @bind-Value="newCategory.Name" />
+                        <ValidationMessage For="() => newCategory.Name" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ulož</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (IsVisible)
+{
+    <div class="modal-backdrop fade show" @onclick="CloseModal"></div>
+}
+
+@code {
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    [Parameter]
+    public EventCallback OnCategoryCreated { get; set; }
+
+    private CategoryView newCategory = new();
+
+    private async Task CreateCategory()
+    {
+        await categoriesClient.CreateCategoryAsync(newCategory);
+        newCategory = new();
+        await OnCategoryCreated.InvokeAsync();
+        IsVisible = false;
+    }
+
+    private void CloseModal()
+    {
+        IsVisible = false;
+    }
+}

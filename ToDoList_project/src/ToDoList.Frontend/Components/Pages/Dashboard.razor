@@ -2,26 +2,52 @@
 @using ToDoList.Frontend.Models
 
 @inject IToDoItemsClient toDoItemsClient
+@inject ICategoriesClient categoriesClient
+@inject NavigationManager NavigationManager
 
 <div>
-    <h2>ToDo items dashboard</h2>
-    <table>
-        <thead>
+    <table class="table table-hover mt-3">
+        <thead class="table-dark">
             <tr>
-                <th><button @onclick="OrderById">Id</button></th>
-                <th><button @onclick="OrderByName">Name</button></th>
-                <th>Description</th>
-                <th>IsCompleted</th>
+                <th><button class="btn btn-secondary" @onclick="OrderById">ID&nbsp;&#x21C5;</button></th>
+                <th>
+                    <button class="btn btn-success" @onclick="OrderByName">Úkol&nbsp;&#x21C5;</button>
+                    <button class="btn btn-primary btn-sm ms-2" @onclick="CreateItem">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </th>
+                <th>Popis úkolu</th>
+                <th>Kategorie</th>
+                <th>Hotovo?</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in sortedData)
             {
-                <tr>
+                <tr class=@ConvertItemCompletionToTableRowStyle(item.IsCompleted)>
                     <td>@item.Id</td>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
-                    <td>@(item.IsCompleted ? "Dokonceny" : "Nedokonceny")</td>
+                    <td>@categoryNames.GetValueOrDefault(item.CategoryId, "-")</td>
+                    <td>
+                        <span class="@(item.IsCompleted ? "" : "text-danger")">
+                            @(item.IsCompleted ? "ANO" : "NE")
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary" @onclick="() => ToggleItem(item)">
+                                <i class=@ConvertItemCompletionToToggleIconStyle(item.IsCompleted)></i>
+                            </button>
+                            <button class="btn btn-info" @onclick="() => EditItem(item)">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-danger" @onclick="() => DeleteItem(item)">
+                                <i class="bi bi-x-square"></i>
+                            </button>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -29,16 +55,8 @@
 </div>
 
 @code {
-    private List<ToDoItemView> testData = new()
-{
-new ToDoItemView(1, "Nakoupit potraviny", "Mléko, chléb, vejce", false),
-new ToDoItemView(2, "Dokončit projekt", "Implementovat všechny funkce", true),
-new ToDoItemView(3, "Zavolat mamince", "Domluvit víkend", false),
-new ToDoItemView(4, "Cvičit", "Běhání v parku", false),
-new ToDoItemView(5, "Přečíst knihu", "Kapitola 5", true)
-};
-
     private List<ToDoItemView> sortedData = new();
+    private Dictionary<int, string> categoryNames = new();
 
     public void OrderByName()
     {
@@ -50,9 +68,42 @@ new ToDoItemView(5, "Přečíst knihu", "Kapitola 5", true)
         sortedData = sortedData.OrderBy(item => item.Id).ToList();
     }
 
+    public void CreateItem()
+    {
+        NavigationManager.NavigateTo("editToDoItem");
+    }
+
+    public void EditItem(ToDoItemView toDoItem)
+    {
+        NavigationManager.NavigateTo($"editToDoItem/{toDoItem.Id}");
+    }
+
+    private async Task ToggleItem(ToDoItemView item)
+    {
+        item.IsCompleted = !item.IsCompleted;
+        await toDoItemsClient.UpdateItemAsync(item);
+    }
+
+    private async Task DeleteItem(ToDoItemView item)
+    {
+        await toDoItemsClient.DeleteItemAsync(item);
+        sortedData = await toDoItemsClient.ReadItemsAsync();
+        //StateHasChanged();
+    }
+
     protected override async Task OnInitializedAsync()
     {
         //sortedData = testData.ToList();
         sortedData = await toDoItemsClient.ReadItemsAsync();
+        await RefreshCategoriesAsync();
     }
+
+    private async Task RefreshCategoriesAsync()
+    {
+        var categories = await categoriesClient.ReadCategoriesAsync();
+        categoryNames = categories.ToDictionary(c => c.Id, c => c.Name);
+    }
+
+    private string ConvertItemCompletionToTableRowStyle(bool isCompleted) => isCompleted ? "table-success" : "table-light";
+    private string ConvertItemCompletionToToggleIconStyle(bool isCompleted) => isCompleted ? "bi bi-check-square-fill" : "bi bi-check-square";
 }

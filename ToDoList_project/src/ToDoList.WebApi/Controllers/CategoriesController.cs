@@ -7,29 +7,20 @@ using ToDoList.Persistence.Repositories;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ToDoItemsController : ControllerBase
+public class CategoriesController : ControllerBase
 {
-    private readonly IRepositoryAsync<ToDoItem> repository;
-    private readonly IRepositoryAsync<Category> categoryRepository;
+    private readonly IRepositoryAsync<Category> repository;
 
-    public ToDoItemsController(IRepositoryAsync<ToDoItem> repository, IRepositoryAsync<Category> categoryRepository)
+    public CategoriesController(IRepositoryAsync<Category> repository)
     {
         this.repository = repository;
-        this.categoryRepository = categoryRepository;
     }
 
     [HttpPost]
-    public async Task<ActionResult<ToDoItemGetResponseDto>> Create(ToDoItemCreateRequestDto request)
+    public async Task<ActionResult<CategoryGetResponseDto>> Create(CategoryCreateRequestDto request)
     {
         //map to Domain object as soon as possible
         var item = request.ToDomain();
-
-        // check if category ID exists
-        var category = await categoryRepository.ReadByIdAsync(request.CategoryId);
-        if (category is null)
-        {
-            return BadRequest("Category with the specified ID does not exist.");
-        }
 
         //try to create an item
         try
@@ -44,14 +35,14 @@ public class ToDoItemsController : ControllerBase
         //respond to client
         return CreatedAtAction(
             nameof(ReadById),
-            new { toDoItemId = item.ToDoItemId },
-            ToDoItemGetResponseDto.FromDomain(item)); //201
+            new { CategoryId = item.CategoryId },
+            CategoryGetResponseDto.FromDomain(item)); //201
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ToDoItemGetResponseDto>>> Read()
+    public async Task<ActionResult<IEnumerable<CategoryGetResponseDto>>> Read()
     {
-        IEnumerable<ToDoItem> itemsToGet;
+        IEnumerable<Category> itemsToGet;
         try
         {
             itemsToGet = await repository.ReadAllAsync();
@@ -64,17 +55,17 @@ public class ToDoItemsController : ControllerBase
         //respond to client
         return (itemsToGet is null)
             ? NotFound() //404
-            : Ok(itemsToGet.Select(ToDoItemGetResponseDto.FromDomain)); //200
+            : Ok(itemsToGet.Select(CategoryGetResponseDto.FromDomain)); //200
     }
 
-    [HttpGet("{toDoItemId:int}")]
-    public async Task<ActionResult<ToDoItemGetResponseDto>> ReadById(int toDoItemId)
+    [HttpGet("{CategoryId:int}")]
+    public async Task<ActionResult<CategoryGetResponseDto>> ReadById(int CategoryId)
     {
         //try to retrieve the item by id
-        ToDoItem? itemToGet;
+        Category? itemToGet;
         try
         {
-            itemToGet = await repository.ReadByIdAsync(toDoItemId);
+            itemToGet = await repository.ReadByIdAsync(CategoryId);
         }
         catch (Exception ex)
         {
@@ -84,28 +75,21 @@ public class ToDoItemsController : ControllerBase
         //respond to client
         return (itemToGet is null)
             ? NotFound() //404
-            : Ok(ToDoItemGetResponseDto.FromDomain(itemToGet)); //200
+            : Ok(CategoryGetResponseDto.FromDomain(itemToGet)); //200
     }
 
-    [HttpPut("{toDoItemId:int}")]
-    public async Task<IActionResult> UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
+    [HttpPut("{CategoryId:int}")]
+    public async Task<IActionResult> UpdateById(int CategoryId, [FromBody] CategoryUpdateRequestDto request)
     {
-        // check if category ID exists
-        var category = await categoryRepository.ReadByIdAsync(request.CategoryId);
-        if (category is null)
-        {
-            return BadRequest("Category with the specified ID does not exist.");
-        }
-
         //map to Domain object as soon as possible
         var updatedItem = request.ToDomain();
-        updatedItem.ToDoItemId = toDoItemId;
+        updatedItem.CategoryId = CategoryId;
 
         //try to update the item by retrieving it with given id
         try
         {
             //retrieve the item
-            var itemToUpdate = await repository.ReadByIdAsync(toDoItemId);
+            var itemToUpdate = await repository.ReadByIdAsync(CategoryId);
             if (itemToUpdate is null)
             {
                 return NotFound(); //404
@@ -122,19 +106,19 @@ public class ToDoItemsController : ControllerBase
         return NoContent(); //204
     }
 
-    [HttpDelete("{toDoItemId:int}")]
-    public async Task<IActionResult> DeleteById(int toDoItemId)
+    [HttpDelete("{CategoryId:int}")]
+    public async Task<IActionResult> DeleteById(int CategoryId)
     {
         //try to delete the item
         try
         {
-            var itemToDelete = await repository.ReadByIdAsync(toDoItemId);
+            var itemToDelete = await repository.ReadByIdAsync(CategoryId);
             if (itemToDelete is null)
             {
                 return NotFound(); //404
             }
 
-            await repository.DeleteByIdAsync(toDoItemId);
+            await repository.DeleteByIdAsync(CategoryId);
         }
         catch (Exception ex)
         {

@@ -1,0 +1,18 @@
+[
+  {
+    "CategoryId": 1,
+    "Name": "Krávy a býci"
+  },
+  {
+    "CategoryId": 2,
+    "Name": "Prasata a selata"
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Drůbež (slepice, kachny)"
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Ovce a kozy"
+  }
+]
